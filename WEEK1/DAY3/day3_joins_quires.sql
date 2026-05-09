@@ -1,74 +1,78 @@
--- SQL Joins Assignment Starter File
--- Compatible with PostgreSQL
+SELECT s.student_name, c.course_name
+FROM students s
+LEFT JOIN enrollments e
+ON s.student_id = e.student_id
+LEFT JOIN courses c
+ON e.course_id = c.course_id;
 
-DROP TABLE IF EXISTS enrollments;
-DROP TABLE IF EXISTS courses;
-DROP TABLE IF EXISTS students;
-DROP TABLE IF EXISTS instructors;
+SELECT c.course_name
+FROM courses c
+LEFT JOIN enrollments e
+ON c.course_id = e.course_id
+WHERE e.course_id IS NULL;
 
-CREATE TABLE instructors (
-    instructor_id INT PRIMARY KEY,
-    instructor_name VARCHAR(100),
-    department VARCHAR(100)
-);
+SELECT i.instructor_name, c.course_name
+FROM instructors i
+LEFT JOIN courses c
+ON i.instructor_id = c.instructor_id;
 
-CREATE TABLE students (
-    student_id INT PRIMARY KEY,
-    student_name VARCHAR(100),
-    email VARCHAR(100)
-);
+SELECT course_name
+FROM courses
+WHERE instructor_id IS NULL;
 
-CREATE TABLE courses (
-    course_id INT PRIMARY KEY,
-    course_name VARCHAR(100),
-    instructor_id INT NULL,
-    FOREIGN KEY (instructor_id) REFERENCES instructors(instructor_id)
-);
+SELECT s.student_name, e.enrollment_id, e.course_id
+FROM students s
+RIGHT JOIN enrollments e
+ON s.student_id = e.student_id;
 
-CREATE TABLE enrollments (
-    enrollment_id INT PRIMARY KEY,
-    student_id INT,
-    course_id INT,
-    enrollment_date DATE,
-    FOREIGN KEY (student_id) REFERENCES students(student_id),
-    FOREIGN KEY (course_id) REFERENCES courses(course_id)
-);
+SELECT s.student_name
+FROM students s
+LEFT JOIN enrollments e
+ON s.student_id = e.student_id
+WHERE e.student_id IS NULL;
 
--- Insert instructors
-INSERT INTO instructors VALUES
-(1, 'Sarah Connor', 'Databases'),
-(2, 'Michael Scott', 'Programming'),
-(3, 'Tony Stark', 'Cloud Computing'),
-(4, 'Bruce Wayne', 'Cyber Security');
+SELECT s.student_name, e.enrollment_id, e.course_id
+FROM students s
+LEFT JOIN enrollments e
+ON s.student_id = e.student_id
 
--- Insert students
-INSERT INTO students VALUES
-(1, 'Alice Johnson', 'alice@email.com'),
-(2, 'Bob Smith', 'bob@email.com'),
-(3, 'Charlie Brown', 'charlie@email.com'),
-(4, 'Diana Prince', 'diana@email.com'),
-(5, 'Ethan Hunt', 'ethan@email.com'),
-(6, 'Fiona Green', 'fiona@email.com');
+UNION
 
--- Insert courses
-INSERT INTO courses VALUES
-(101, 'SQL Basics', 1),
-(102, 'Python Fundamentals', 2),
-(103, 'Data Analytics', NULL),
-(104, 'Cloud Computing', 3),
-(105, 'Machine Learning', NULL),
-(106, 'Cyber Security', 4);
+SELECT s.student_name, e.enrollment_id, e.course_id
+FROM students s
+RIGHT JOIN enrollments e
+ON s.student_id = e.student_id;
 
--- Insert enrollments
-INSERT INTO enrollments VALUES
-(1, 1, 101, '2024-01-10'),
-(2, 1, 102, '2024-01-12'),
-(3, 2, 101, '2024-01-15'),
-(4, 3, 104, '2024-01-20'),
-(5, 4, 106, '2024-01-25');
+SELECT c.course_name
+FROM courses c
+LEFT JOIN enrollments e
+ON c.course_id = e.course_id
+WHERE e.course_id IS NULL;
 
--- Notes:
--- Student 5 and 6 are not enrolled in any course.
--- Courses 103 and 105 have no instructor assigned.
--- Courses 103 and 105 also have no enrollments.
--- Instructor 4 teaches one course.
+SELECT i.instructor_name, c.course_name
+FROM instructors i
+LEFT JOIN courses c
+ON i.instructor_id = c.instructor_id
+
+UNION
+
+SELECT i.instructor_name, c.course_name
+FROM instructors i
+RIGHT JOIN courses c
+ON i.instructor_id = c.instructor_id;
+
+SELECT 
+    s.student_name,
+    c.course_name,
+    i.instructor_name
+FROM students s
+LEFT JOIN enrollments e
+ON s.student_id = e.student_id
+LEFT JOIN courses c
+ON e.course_id = c.course_id
+LEFT JOIN instructors i
+ON c.instructor_id = i.instructor_id;
+
+SELECT s.student_name, c.course_name
+FROM students s
+CROSS JOIN courses c;
