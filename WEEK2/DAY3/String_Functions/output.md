@@ -1,325 +1,307 @@
 **Schema (MySQL v9)**
 
-    CREATE TABLE orders (
-    order_id INT PRIMARY KEY,
-    customer_name VARCHAR(50),
-    order_date DATE,
-    order_timestamp TIMESTAMP,
-    delivery_date DATE,
-    order_amount DECIMAL(10,2)
+    CREATE TABLE employee_salary (
+    emp_id INT PRIMARY KEY,
+    emp_name VARCHAR(50),
+    base_salary DECIMAL(10,2),
+    bonus DECIMAL(10,2),
+    tax_percent DECIMAL(5,2),
+    experience_years INT
     );
-    INSERT INTO orders VALUES
-    (1, 'Karthik', '2024-01-15', '2024-01-15 10:30:45', '2024-01-20', 2500.00),
-    (2, 'Veena', '2024-02-18', '2024-02-18 18:45:20', '2024-02-22', 3200.50),
-    (3, 'Ravi', '2024-03-02', '2024-03-02 09:15:10', '2024-03-08', 4100.75),
-    (4, 'Anil', '2024-03-09', '2024-03-09 14:05:55', '2024-03-15', 1800.00),
-    (5, 'Suresh', '2024-01-07', '2024-01-07 23:55:00', '2024-01-12', 2900.00);
+    INSERT INTO employee_salary VALUES
+    (1, 'Karthik', 75000.75, 5000.50, 10.00, 6),
+    (2, 'Veena', 65000.40, 4000.25, 8.50, 4),
+    (3, 'Ravi', 85000.90, 6000.75, 12.00, 8),
+    (4, 'Anil', 70000.10, NULL, 9.00, 5),
+    (5, 'Suresh', 60000.55, 3000.30, 7.50, 3);
 
 ---
 
 **Query #1**
 
-    SELECT * FROM orders;
+    DROP TABLE IF EXISTS employees;
 
-| order_id | customer_name | order_date | order_timestamp     | delivery_date | order_amount |
-| -------- | ------------- | ---------- | ------------------- | ------------- | ------------ |
-| 1        | Karthik       | 2024-01-15 | 2024-01-15 10:30:45 | 2024-01-20    | 2500.0       |
-| 2        | Veena         | 2024-02-18 | 2024-02-18 18:45:20 | 2024-02-22    | 3200.5       |
-| 3        | Ravi          | 2024-03-02 | 2024-03-02 09:15:10 | 2024-03-08    | 4100.75      |
-| 4        | Anil          | 2024-03-09 | 2024-03-09 14:05:55 | 2024-03-15    | 1800.0       |
-| 5        | Suresh        | 2024-01-07 | 2024-01-07 23:55:00 | 2024-01-12    | 2900.0       |
+There are no results to be displayed.
 
 ---
 **Query #2**
 
-    SELECT 
-        order_id,
-        customer_name,
-        YEAR(order_date) AS order_year,
-        MONTH(order_date) AS order_month,
-        DAY(order_date) AS order_day
-    FROM orders;
+    CREATE TABLE employees (
+        emp_id INT PRIMARY KEY,
+        full_name VARCHAR(100),
+        email VARCHAR(100),
+        department VARCHAR(50),
+        city VARCHAR(50),
+        remarks VARCHAR(100)
+    );
 
-| order_id | customer_name | order_year | order_month | order_day |
-| -------- | ------------- | ---------- | ----------- | --------- |
-| 1        | Karthik       | 2024       | 1           | 15        |
-| 2        | Veena         | 2024       | 2           | 18        |
-| 3        | Ravi          | 2024       | 3           | 2         |
-| 4        | Anil          | 2024       | 3           | 9         |
-| 5        | Suresh        | 2024       | 1           | 7         |
+There are no results to be displayed.
 
 ---
 **Query #3**
 
-    SELECT 
-        order_id,
-        customer_name,
-        DATEDIFF(delivery_date, order_date) AS delivery_days
-    FROM orders;
+    INSERT INTO employees VALUES
+    (1, 'Karthik Anand', 'karthik@gmail.com', 'Analytics', 'New York', 'Good'),
+    (2, 'Veena Sharma', 'veena@yahoo.com', 'HR', 'San Francisco', NULL),
+    (3, 'Ravi Kumar', 'ravi@outlook.com', 'IT', 'Los Angeles', ' '),
+    (4, 'Anil Verma', 'anil@gmail.com', 'Analytics', 'Chicago City', NULL),
+    (5, 'Suresh Rao', 'suresh@protonmail.com', 'Finance', 'Boston City', 'Excellent');
 
-| order_id | customer_name | delivery_days |
-| -------- | ------------- | ------------- |
-| 1        | Karthik       | 5             |
-| 2        | Veena         | 4             |
-| 3        | Ravi          | 6             |
-| 4        | Anil          | 6             |
-| 5        | Suresh        | 5             |
+There are no results to be displayed.
 
 ---
 **Query #4**
 
-    SELECT 
-        order_id,
-        customer_name,
-        order_timestamp,
-        TIME(order_timestamp) AS order_time
-    FROM orders;
+    -- 1
+    SELECT full_name, LENGTH(full_name) AS byte_length, CHAR_LENGTH(full_name) AS char_length
+    FROM employees;
 
-| order_id | customer_name | order_timestamp     | order_time |
-| -------- | ------------- | ------------------- | ---------- |
-| 1        | Karthik       | 2024-01-15 10:30:45 | 10:30:45   |
-| 2        | Veena         | 2024-02-18 18:45:20 | 18:45:20   |
-| 3        | Ravi          | 2024-03-02 09:15:10 | 09:15:10   |
-| 4        | Anil          | 2024-03-09 14:05:55 | 14:05:55   |
-| 5        | Suresh        | 2024-01-07 23:55:00 | 23:55:00   |
+| full_name     | byte_length | char_length |
+| ------------- | ----------- | ----------- |
+| Karthik Anand | 13          | 13          |
+| Veena Sharma  | 12          | 12          |
+| Ravi Kumar    | 10          | 10          |
+| Anil Verma    | 10          | 10          |
+| Suresh Rao    | 10          | 10          |
 
 ---
 **Query #5**
 
-    SELECT *
-    FROM orders
-    WHERE MONTH(order_date) = 2 AND YEAR(order_date) = 2024;
+    -- 2
+    SELECT 
+        UPPER(full_name) AS upper_name,
+        LOWER(full_name) AS lower_name
+    FROM employees;
 
-| order_id | customer_name | order_date | order_timestamp     | delivery_date | order_amount |
-| -------- | ------------- | ---------- | ------------------- | ------------- | ------------ |
-| 2        | Veena         | 2024-02-18 | 2024-02-18 18:45:20 | 2024-02-22    | 3200.5       |
+| upper_name    | lower_name    |
+| ------------- | ------------- |
+| KARTHIK ANAND | karthik anand |
+| VEENA SHARMA  | veena sharma  |
+| RAVI KUMAR    | ravi kumar    |
+| ANIL VERMA    | anil verma    |
+| SURESH RAO    | suresh rao    |
 
 ---
 **Query #6**
 
-    SELECT SUM(order_amount) AS total_revenue
-    FROM orders;
+    -- 3
+    SELECT full_name,
+           TRIM(full_name) AS trimmed,
+           LTRIM(full_name) AS left_trim,
+           RTRIM(full_name) AS right_trim
+    FROM employees;
 
-| total_revenue |
-| ------------- |
-| 14501.25      |
+| full_name     | trimmed       | left_trim     | right_trim    |
+| ------------- | ------------- | ------------- | ------------- |
+| Karthik Anand | Karthik Anand | Karthik Anand | Karthik Anand |
+| Veena Sharma  | Veena Sharma  | Veena Sharma  | Veena Sharma  |
+| Ravi Kumar    | Ravi Kumar    | Ravi Kumar    | Ravi Kumar    |
+| Anil Verma    | Anil Verma    | Anil Verma    | Anil Verma    |
+| Suresh Rao    | Suresh Rao    | Suresh Rao    | Suresh Rao    |
 
 ---
 **Query #7**
 
-    SELECT AVG(order_amount) AS avg_order_value
-    FROM orders;
+    -- 4
+    SELECT 
+        CONCAT(UPPER(LEFT(full_name,1)), LOWER(SUBSTRING(full_name,2))) AS formatted_name,
+        CONCAT(full_name, '-', department) AS emp_details
+    FROM employees;
 
-| avg_order_value |
-| --------------- |
-| 2900.25         |
+| formatted_name | emp_details             |
+| -------------- | ----------------------- |
+| Karthik anand  | Karthik Anand-Analytics |
+| Veena sharma   | Veena Sharma-HR         |
+| Ravi kumar     | Ravi Kumar-IT           |
+| Anil verma     | Anil Verma-Analytics    |
+| Suresh rao     | Suresh Rao-Finance      |
 
 ---
 **Query #8**
 
-    SELECT 
-        MAX(order_amount) AS highest_order,
-        MIN(order_amount) AS lowest_order
-    FROM orders;
+    -- 5
+    SELECT CONCAT_WS('|', emp_id, full_name, city) AS emp_details_2
+    FROM employees;
 
-| highest_order | lowest_order |
-| ------------- | ------------ |
-| 4100.75       | 1800.0       |
+| emp_details_2                |
+| ---------------------------- |
+| 1|Karthik Anand|New York     |
+| 2|Veena Sharma|San Francisco |
+| 3|Ravi Kumar|Los Angeles     |
+| 4|Anil Verma|Chicago City    |
+| 5|Suresh Rao|Boston City     |
 
 ---
 **Query #9**
 
-    SELECT 
-        customer_name,
-        SUM(order_amount) AS total_spent
-    FROM orders
-    GROUP BY customer_name;
+    -- 6
+    SELECT email,
+           SUBSTRING_INDEX(email, '@', -1) AS email_domain,
+           SUBSTRING_INDEX(email, '@', 1) AS username,
+           SUBSTRING(full_name, 2, 1) AS second_char
+    FROM employees;
 
-| customer_name | total_spent |
-| ------------- | ----------- |
-| Karthik       | 2500.0      |
-| Veena         | 3200.5      |
-| Ravi          | 4100.75     |
-| Anil          | 1800.0      |
-| Suresh        | 2900.0      |
+| email                 | email_domain   | username | second_char |
+| --------------------- | -------------- | -------- | ----------- |
+| karthik@gmail.com     | gmail.com      | karthik  | a           |
+| veena@yahoo.com       | yahoo.com      | veena    | e           |
+| ravi@outlook.com      | outlook.com    | ravi     | a           |
+| anil@gmail.com        | gmail.com      | anil     | n           |
+| suresh@protonmail.com | protonmail.com | suresh   | u           |
 
 ---
 **Query #10**
 
-    SELECT 
-        customer_name,
-        SUM(order_amount) AS total_spent
-    FROM orders
-    GROUP BY customer_name
-    ORDER BY total_spent DESC
-    LIMIT 1;
+    -- 7
+    SELECT full_name,
+           LEFT(full_name, 1) AS first_char,
+           RIGHT(full_name, 8) AS last_chars
+    FROM employees;
 
-| customer_name | total_spent |
-| ------------- | ----------- |
-| Ravi          | 4100.75     |
+| full_name     | first_char | last_chars |
+| ------------- | ---------- | ---------- |
+| Karthik Anand | K          | ik Anand   |
+| Veena Sharma  | V          | a Sharma   |
+| Ravi Kumar    | R          | vi Kumar   |
+| Anil Verma    | A          | il Verma   |
+| Suresh Rao    | S          | resh Rao   |
 
 ---
 **Query #11**
 
-    SELECT COUNT(*) AS total_orders
-    FROM orders;
+    -- 8
+    SELECT email, INSTR(email, '@') AS at_position
+    FROM employees;
 
-| total_orders |
-| ------------ |
-| 5            |
+| email                 | at_position |
+| --------------------- | ----------- |
+| karthik@gmail.com     | 8           |
+| veena@yahoo.com       | 6           |
+| ravi@outlook.com      | 5           |
+| anil@gmail.com        | 5           |
+| suresh@protonmail.com | 7           |
 
 ---
 **Query #12**
 
-    SELECT *
-    FROM orders
-    WHERE order_amount > (
-        SELECT AVG(order_amount) FROM orders
-    );
+    -- 9
+    SELECT email, LOCATE('.', email) AS dot_position
+    FROM employees;
 
-| order_id | customer_name | order_date | order_timestamp     | delivery_date | order_amount |
-| -------- | ------------- | ---------- | ------------------- | ------------- | ------------ |
-| 2        | Veena         | 2024-02-18 | 2024-02-18 18:45:20 | 2024-02-22    | 3200.5       |
-| 3        | Ravi          | 2024-03-02 | 2024-03-02 09:15:10 | 2024-03-08    | 4100.75      |
+| email                 | dot_position |
+| --------------------- | ------------ |
+| karthik@gmail.com     | 14           |
+| veena@yahoo.com       | 12           |
+| ravi@outlook.com      | 13           |
+| anil@gmail.com        | 11           |
+| suresh@protonmail.com | 18           |
 
 ---
 **Query #13**
 
-    SELECT 
-        order_id,
-        customer_name,
-        order_amount,
-        RANK() OVER (ORDER BY order_amount DESC) AS order_rank
-    FROM orders;
+    -- 10
+    SELECT full_name,
+           REPLACE(full_name, 'a', '*') AS replaced_name
+    FROM employees;
 
-| order_id | customer_name | order_amount | order_rank |
-| -------- | ------------- | ------------ | ---------- |
-| 3        | Ravi          | 4100.75      | 1          |
-| 2        | Veena         | 3200.5       | 2          |
-| 5        | Suresh        | 2900.0       | 3          |
-| 1        | Karthik       | 2500.0       | 4          |
-| 4        | Anil          | 1800.0       | 5          |
+| full_name     | replaced_name |
+| ------------- | ------------- |
+| Karthik Anand | K*rthik An*nd |
+| Veena Sharma  | Veen* Sh*rm*  |
+| Ravi Kumar    | R*vi Kum*r    |
+| Anil Verma    | Anil Verm*    |
+| Suresh Rao    | Suresh R*o    |
 
 ---
 **Query #14**
 
-    SELECT 
-        order_id,
-        customer_name,
-        order_date,
-        order_amount,
-        SUM(order_amount) OVER (ORDER BY order_date) AS running_total
-    FROM orders;
+    -- 11
+    SELECT full_name,
+           REVERSE(full_name) AS reversed_name
+    FROM employees;
 
-| order_id | customer_name | order_date | order_amount | running_total |
-| -------- | ------------- | ---------- | ------------ | ------------- |
-| 5        | Suresh        | 2024-01-07 | 2900.0       | 2900.0        |
-| 1        | Karthik       | 2024-01-15 | 2500.0       | 5400.0        |
-| 2        | Veena         | 2024-02-18 | 3200.5       | 8600.5        |
-| 3        | Ravi          | 2024-03-02 | 4100.75      | 12701.25      |
-| 4        | Anil          | 2024-03-09 | 1800.0       | 14501.25      |
+| full_name     | reversed_name |
+| ------------- | ------------- |
+| Karthik Anand | dnanA kihtraK |
+| Veena Sharma  | amrahS aneeV  |
+| Ravi Kumar    | ramuK ivaR    |
+| Anil Verma    | amreV linA    |
+| Suresh Rao    | oaR hseruS    |
 
 ---
 **Query #15**
 
-    SELECT 
-        order_id,
-        customer_name,
-        order_date,
-        LAG(order_date) OVER (ORDER BY order_date) AS previous_order_date
-    FROM orders;
+    -- 12
+    SELECT full_name,
+           LPAD(full_name, 15, '*') AS left_padded,
+           RPAD(full_name, 15, '*') AS right_padded
+    FROM employees;
 
-| order_id | customer_name | order_date | previous_order_date |
-| -------- | ------------- | ---------- | ------------------- |
-| 5        | Suresh        | 2024-01-07 |                     |
-| 1        | Karthik       | 2024-01-15 | 2024-01-07          |
-| 2        | Veena         | 2024-02-18 | 2024-01-15          |
-| 3        | Ravi          | 2024-03-02 | 2024-02-18          |
-| 4        | Anil          | 2024-03-09 | 2024-03-02          |
+| full_name     | left_padded     | right_padded    |
+| ------------- | --------------- | --------------- |
+| Karthik Anand | **Karthik Anand | Karthik Anand** |
+| Veena Sharma  | ***Veena Sharma | Veena Sharma*** |
+| Ravi Kumar    | *****Ravi Kumar | Ravi Kumar***** |
+| Anil Verma    | *****Anil Verma | Anil Verma***** |
+| Suresh Rao    | *****Suresh Rao | Suresh Rao***** |
 
 ---
 **Query #16**
 
-    SELECT 
-        order_id,
-        customer_name,
-        order_date,
-        DATEDIFF(
-            order_date,
-            LAG(order_date) OVER (ORDER BY order_date)
-        ) AS days_gap
-    FROM orders;
+    -- 13
+    SELECT city,
+           REPLACE(city, ' ', '*') AS cleaned_city
+    FROM employees;
 
-| order_id | customer_name | order_date | days_gap |
-| -------- | ------------- | ---------- | -------- |
-| 5        | Suresh        | 2024-01-07 |          |
-| 1        | Karthik       | 2024-01-15 | 8        |
-| 2        | Veena         | 2024-02-18 | 34       |
-| 3        | Ravi          | 2024-03-02 | 13       |
-| 4        | Anil          | 2024-03-09 | 7        |
+| city          | cleaned_city  |
+| ------------- | ------------- |
+| New York      | New*York      |
+| San Francisco | San*Francisco |
+| Los Angeles   | Los*Angeles   |
+| Chicago City  | Chicago*City  |
+| Boston City   | Boston*City   |
 
 ---
 **Query #17**
 
-    SELECT 
-        customer_name,
-        MIN(order_date) AS first_order,
-        MAX(order_date) AS last_order
-    FROM orders
-    GROUP BY customer_name;
+    -- 14
+    SELECT full_name,
+           COALESCE(NULLIF(remarks, ' '), 'NO REMARKS') AS remarks_cleaned
+    FROM employees;
 
-| customer_name | first_order | last_order |
-| ------------- | ----------- | ---------- |
-| Karthik       | 2024-01-15  | 2024-01-15 |
-| Veena         | 2024-02-18  | 2024-02-18 |
-| Ravi          | 2024-03-02  | 2024-03-02 |
-| Anil          | 2024-03-09  | 2024-03-09 |
-| Suresh        | 2024-01-07  | 2024-01-07 |
+| full_name     | remarks_cleaned |
+| ------------- | --------------- |
+| Karthik Anand | Good            |
+| Veena Sharma  | NO REMARKS      |
+| Ravi Kumar    | NO REMARKS      |
+| Anil Verma    | NO REMARKS      |
+| Suresh Rao    | Excellent       |
 
 ---
 **Query #18**
 
-    SELECT 
-        YEAR(order_date) AS year,
-        MONTH(order_date) AS month,
-        SUM(order_amount) AS monthly_revenue
-    FROM orders
-    GROUP BY YEAR(order_date), MONTH(order_date);
+    -- 15
+    SELECT full_name,
+           COALESCE(remarks, 'N/A') AS remarks_filled
+    FROM employees;
 
-| year | month | monthly_revenue |
-| ---- | ----- | --------------- |
-| 2024 | 1     | 5400.0          |
-| 2024 | 2     | 3200.5          |
-| 2024 | 3     | 5900.75         |
+| full_name     | remarks_filled |
+| ------------- | -------------- |
+| Karthik Anand | Good           |
+| Veena Sharma  | N/A            |
+| Ravi Kumar    |                |
+| Anil Verma    | N/A            |
+| Suresh Rao    | Excellent      |
 
 ---
 **Query #19**
 
-    SELECT 
-        customer_name,
-        AVG(DATEDIFF(delivery_date, order_date)) AS avg_delivery_days
-    FROM orders
-    GROUP BY customer_name;
+    -- 16
+    SELECT FIND_IN_SET('Analytics', 'Data,Analytics,AI') AS search_result;
 
-| customer_name | avg_delivery_days |
-| ------------- | ----------------- |
-| Karthik       | 5.0               |
-| Veena         | 4.0               |
-| Ravi          | 6.0               |
-| Anil          | 6.0               |
-| Suresh        | 5.0               |
-
----
-**Query #20**
-
-    SELECT *
-    FROM orders
-    WHERE TIME(order_timestamp) > '18:00:00';
-
-| order_id | customer_name | order_date | order_timestamp     | delivery_date | order_amount |
-| -------- | ------------- | ---------- | ------------------- | ------------- | ------------ |
-| 2        | Veena         | 2024-02-18 | 2024-02-18 18:45:20 | 2024-02-22    | 3200.5       |
-| 5        | Suresh        | 2024-01-07 | 2024-01-07 23:55:00 | 2024-01-12    | 2900.0       |
+| search_result |
+| ------------- |
+| 2             |
 
 ---
 
