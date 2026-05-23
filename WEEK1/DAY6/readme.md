@@ -59,4 +59,4 @@ Solve interview-level SQL problems
 Create dashboard-ready queries for business insights
 🧠 Final Insight
 
-This day reinforced that SQL is not just about querying data — it is a powerful tool for analytics engineering, business intelligence, and decision-making systems when used with CTEs and window functions effectively.
+This day reinforced that SQL is not just about querying data — it is a powerful tool for analytics engineering, business intelligence, and decision-making systems when used with CTEs and window functions effectively. 
