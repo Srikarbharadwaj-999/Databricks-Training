@@ -1,0 +1,40 @@
+🟢 Section A: Basic Level (5 Questions)
+1️⃣ Display the first 5 rows of the dataset.
+2️⃣ Check the total number of rows and columns in the dataset.
+3️⃣ Find the number of missing values in each column.
+4️⃣ Replace missing values in the marks column with the average marks.
+5️⃣ Display only the name and marks columns.
+________________________________________
+🟡 Section B: Filtering & Sorting (5 Questions)
+6️⃣ Display students who scored more than 160 marks.
+7️⃣ Display students from the "CS" department.
+8️⃣ Show students who have attendance greater than 85 and marks greater than 150.
+9️⃣ Sort the dataset by marks in descending order.
+🔟 Display the top 3 students based on marks.
+________________________________________
+🟠 Section C: Column Transformations (5 Questions)
+1️⃣1️⃣ Create a new column percentage assuming total marks are 200.
+1️⃣2️⃣ Create a new column grade using:
+•	A → percentage ≥ 85
+•	B → percentage ≥ 70
+•	C → percentage ≥ 50
+•	Fail → otherwise
+1️⃣3️⃣ Add 5 bonus marks to every student.
+1️⃣4️⃣ Create a new column result where:
+•	Pass → percentage ≥ 40
+•	Fail → otherwise
+1️⃣5️⃣ Convert all student names to uppercase.
+________________________________________
+🔵 Section D: GroupBy & Aggregation (5 Questions)
+1️⃣6️⃣ Find the average marks of each department.
+1️⃣7️⃣ Find the maximum marks scored in each city.
+1️⃣8️⃣ Count the number of students in each department.
+1️⃣9️⃣ Find the department with the highest average marks.
+2️⃣0️⃣ Create a pivot table showing average marks by department and city.
+________________________________________
+🔴 Section E: Advanced Level (For High Performers)
+2️⃣1️⃣ Rank students based on marks (highest marks = Rank 1).
+2️⃣2️⃣ Find students whose marks are above the overall average marks.
+2️⃣3️⃣ Standardize the marks column using Min-Max Scaling.
+2️⃣4️⃣ Categorize attendance into:
+•	Excellent (≥ 90)
